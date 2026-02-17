@@ -15,7 +15,7 @@ Site web de vente en ligne pour Dame Samoussa, spécialiste des snacks africains
 
 Ce site est automatiquement déployé sur GitHub Pages via GitHub Actions.
 
-**URL du site** : https://[votre-username].github.io/dame-samoussa/
+**URL du site** : https://hounsoupeninna-gif.github.io/Dame-samoussa/
 
 ## 💻 Développement Local
 
