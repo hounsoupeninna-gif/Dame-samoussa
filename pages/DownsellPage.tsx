@@ -11,9 +11,9 @@ const DownsellPage: React.FC<DownsellPageProps> = ({ onAccept, onDecline }) => {
   return (
     <div className="pt-32 pb-12 bg-dame-white min-h-screen">
       <div className="container mx-auto px-4 max-w-3xl">
-        <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-dame-beige">
+        <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-dame-beige animate-scaleIn">
           <div className="p-8 md:p-12 text-center">
-            <h2 className="text-3xl font-bold text-dame-brown mb-4">Besoin d'un petit extra sans vous ruiner ?</h2>
+            <h2 className="text-3xl font-bold text-dame-brown mb-4 animate-fadeIn">Besoin d'un petit extra sans vous ruiner ?</h2>
             <p className="text-lg text-dame-brown/70 mb-10">
               Complétez votre fête avec notre <strong>Plateau Découverte</strong>. Un assortiment de 20 pièces supplémentaires pour être sûr que personne ne manque de rien.
             </p>

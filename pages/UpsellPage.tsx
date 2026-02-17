@@ -11,10 +11,10 @@ const UpsellPage: React.FC<UpsellPageProps> = ({ onAccept, onDecline }) => {
   return (
     <div className="pt-32 pb-12 bg-dame-white min-h-screen">
       <div className="container mx-auto px-4 max-w-4xl">
-        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-dame-orange/20">
-          <div className="bg-dame-orange p-6 text-center text-white">
-            <p className="uppercase tracking-widest text-sm font-bold mb-2">Attendez ! Une opportunité unique pour vous...</p>
-            <h2 className="text-3xl md:text-4xl font-bold">Voulez-vous passer au niveau PLATINUM ?</h2>
+        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-dame-orange/20 animate-scaleIn">
+          <div className="bg-dame-orange p-6 text-center text-white animate-slideInLeft">
+            <p className="uppercase tracking-widest text-sm font-bold mb-2 badge-shine">⭐ Attendez ! Une opportunité unique pour vous...</p>
+            <h2 className="text-3xl md:text-4xl font-bold animate-pulse-slow">Voulez-vous passer au niveau PLATINUM ?</h2>
           </div>
           
           <div className="p-8 md:p-12">
@@ -58,16 +58,16 @@ const UpsellPage: React.FC<UpsellPageProps> = ({ onAccept, onDecline }) => {
                   <p className="text-xs text-dame-orange font-bold uppercase mt-1">Économisez 75 000 F CFA aujourd'hui</p>
                 </div>
                 
-                <button 
+                <button
                   onClick={onAccept}
-                  className="bg-dame-orange text-white py-5 rounded-2xl font-bold text-xl shadow-lg shadow-dame-orange/40 hover:scale-105 transition-all mb-4"
+                  className="bg-dame-orange text-white py-5 rounded-2xl font-bold text-xl shadow-lg shadow-dame-orange/40 hover:scale-105 smooth-transition cta-button mb-4 min-h-[60px] w-full animate-bounce-slow hover:shadow-2xl"
                 >
-                  OUI ! Je passe au Pack Premium
+                  🎊 OUI ! Je passe au Pack Premium
                 </button>
-                
-                <button 
+
+                <button
                   onClick={onDecline}
-                  className="text-dame-brown/40 font-medium hover:text-dame-brown transition-colors underline text-sm"
+                  className="text-dame-brown/40 font-medium hover:text-dame-brown smooth-transition underline text-sm hover:no-underline"
                 >
                   Non merci, je reste sur mon Pack VIP 8 personnes
                 </button>
