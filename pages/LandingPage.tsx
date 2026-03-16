@@ -1,225 +1,299 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { CheckIcon } from '../constants';
 
-interface LandingPageProps {
-  onNext: (data: any) => void;
-}
+const WHATSAPP_NUMBER = '22967823234';
+const PHONE_DISPLAY = '+229 01 67 82 32 34';
+const WHATSAPP_MESSAGE = encodeURIComponent('Bonjour Dame Samoussa ! Je veux réserver un pack 🎉');
+const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`;
 
-const LandingPage: React.FC<LandingPageProps> = ({ onNext }) => {
-  const [timeLeft, setTimeLeft] = useState(7200); // 2 hours
+const WhatsAppButton: React.FC<{ label?: string; className?: string }> = ({
+  label = '💬 Réserver sur WhatsApp',
+  className = '',
+}) => (
+  <a
+    href={WHATSAPP_LINK}
+    target="_blank"
+    rel="noopener noreferrer"
+    className={`inline-flex items-center justify-center bg-dame-orange text-white font-bold rounded-xl shadow-xl shadow-dame-orange/30 hover:scale-105 smooth-transition cta-button min-h-[56px] hover:shadow-2xl hover:shadow-dame-orange/40 ${className}`}
+  >
+    {label}
+  </a>
+);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(prev => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
+const packs = [
+  {
+    name: 'Pack Anniversaire',
+    people: null,
+    total: 24000,
+    items: ['10 Samoussas', '10 Mini Pizzas', '10 Friands', '10 Crêpes', '10 Nems'],
+    highlight: true,
+  },
+  {
+    name: 'Pack Végétarien',
+    people: null,
+    total: 23000,
+    items: ['20 Samoussas épinards/pomme de terre', '20 Mini Pizzas champignon', '20 Crêpes'],
+    highlight: false,
+  },
+  {
+    name: 'Pack Événement',
+    people: 250,
+    total: 77250,
+    items: ['50 Samoussas', '50 Mini Pizzas', '50 Friands', '50 Nems', '50 Croissants jambon'],
+    highlight: false,
+  },
+];
 
-  const formatTime = (seconds: number) => {
-    const h = Math.floor(seconds / 3600);
-    const m = Math.floor((seconds % 3600) / 60);
-    const s = seconds % 60;
-    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-  };
 
-  const benefits = [
-    "Libérez-vous du stress de la cuisine et profitez de vos invités",
-    "Impressionnez vos proches avec une qualité traiteur premium",
-    "Des snacks frais, croustillants et authentiques",
-    "Le secret de la convivialité africaine dans votre salon",
-    "Une présentation élégante digne des plus grands événements"
-  ];
+const testimonials = [
+  {
+    name: 'Vanessa T.',
+    city: 'Cotonou',
+    text: 'Les petits fours étaient incroyables ! Tous mes invités en redemandaient. Je recommande à 100%.',
+    stars: 5,
+  },
+  {
+    name: 'Rodrigue K.',
+    city: 'PK 10',
+    text: "Dame Samoussa a transformé l'anniversaire de mon fils. Zéro stress, tout était parfait à l'arrivée.",
+    stars: 5,
+  },
+  {
+    name: 'Tatiana H.',
+    city: 'Cotonou',
+    text: "La qualité est au rendez-vous à chaque commande. C'est notre traiteur officiel pour tous nos événements.",
+    stars: 5,
+  },
+];
 
-  const menuItems = [
-    "1 Gâteau d'anniversaire Signature",
-    "10 Samoussas (Viande, Poulet ou Poisson)",
-    "10 Mini Pizzas Gourmandes",
-    "10 Mini Friands croustillants",
-    "10 Crêpes marbrées fondantes",
-    "10 Nems artisanaux"
-  ];
+const faqs = [
+  {
+    q: 'Comment se passe la livraison ?',
+    a: 'Nous livrons partout à Cotonou et environs. Les snacks arrivent chauds et croustillants dans des emballages premium.',
+  },
+  {
+    q: 'Puis-je choisir le type de samoussa ?',
+    a: 'Oui ! Viande, poulet ou poisson — vous choisissez lors de la discussion sur WhatsApp.',
+  },
+  {
+    q: "Quand dois-je commander ?",
+    a: "Nous recommandons une réservation 48h à l'avance pour garantir la fraîcheur artisanale.",
+  },
+  {
+    q: 'Comment se passe le paiement ?',
+    a: 'Paiement simple via MTN MoMo ou Moov Money. Notre équipe vous envoie les instructions sur WhatsApp.',
+  },
+];
 
+const LandingPage: React.FC = () => {
   return (
     <div className="pt-24 pb-12">
-      {/* Urgence Banner */}
-      <div className="bg-dame-orange text-white py-3 text-center font-bold animate-fadeIn sticky top-0 z-50 shadow-lg">
-        <p className="text-sm md:text-base">
-          🔥 Plus que <span className="bg-white text-dame-orange px-2 py-1 rounded mx-1 font-bold">7 places</span> disponibles pour cette semaine !
-        </p>
-      </div>
 
-      {/* Hero Section */}
-      <section className="container mx-auto px-4 py-12 md:py-24 grid md:grid-cols-2 gap-12 items-center">
-        <div className="animate-slideInLeft">
-          <span className="inline-block bg-dame-beige/30 text-dame-orange font-bold px-4 py-1 rounded-full text-sm mb-6 uppercase tracking-widest border border-dame-orange/20 badge-shine">
-            Offre Exclusive Anniversaire
+      {/* Hero plein écran */}
+      <section style={{ height: '100svh', minHeight: '600px', marginTop: '-6rem', position: 'relative', overflow: 'hidden' }}>
+        {/* Vidéo de fond */}
+        <video
+          src="/hero.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+        {/* Overlay sombre */}
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.55)' }} />
+
+        {/* Contenu centré */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
+          padding: '0 1.5rem',
+          zIndex: 10,
+        }}>
+          <span className="inline-block bg-white/10 backdrop-blur-sm text-white font-semibold px-5 py-2 rounded-full text-xs uppercase tracking-widest border border-white/30 mb-8">
+            Traiteur événementiel · Cotonou
           </span>
-          <h1 className="text-4xl md:text-6xl font-bold text-dame-brown leading-tight mb-6 italic animate-fadeIn delay-100">
-            Fêtez votre Anniversaire comme une <span className="text-dame-orange animate-pulse-slow inline-block">VIP</span> : Le Festin qui vous met à l'Honneur !
+          <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight mb-6" style={{ maxWidth: '56rem' }}>
+            Soyez l'hôte d'honneur de votre propre fête —{' '}
+            <span className="text-dame-orange italic">Dame Samoussa</span> s'occupe du reste.
           </h1>
-          <p className="text-lg md:text-xl text-dame-brown/80 mb-8 leading-relaxed animate-fadeIn delay-200">
-            Savourez chaque instant de votre journée spéciale pendant que <strong>Dame Samoussa</strong> s'occupe de régaler vos invités avec excellence.
+          <p className="text-lg md:text-xl mb-10 leading-relaxed" style={{ color: 'rgba(255,255,255,0.85)', maxWidth: '42rem' }}>
+            Pas de stress en cuisine. Pas de vaisselle interminable. Juste des mini-délices croustillants, chauds et livrés chez vous.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 animate-fadeIn delay-300">
-            <button
-              onClick={() => onNext({})}
-              className="bg-dame-orange text-white text-lg font-bold px-8 py-4 rounded-xl shadow-xl shadow-dame-orange/30 cta-button text-center min-h-[56px] hover:shadow-2xl hover:shadow-dame-orange/40"
-            >
-              Réserver mon Pack VIP maintenant
-            </button>
-            <div className="flex items-center gap-3">
-              <div className="flex -space-x-2 animate-slideInLeft delay-400">
-                {[1, 2, 3, 4].map(i => (
-                  <img key={i} src={`https://picsum.photos/seed/${i+40}/100/100`} className="w-10 h-10 rounded-full border-2 border-white hover:scale-110 smooth-transition" alt="Avatar" />
-                ))}
-              </div>
-              <div className="animate-fadeIn delay-500">
-                <p className="text-xs text-dame-brown font-semibold">⭐ +1,200 clientes satisfaites</p>
-                <p className="text-xs text-dame-orange font-bold">Note moyenne : 4.9/5</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Badges de confiance */}
-          <div className="grid grid-cols-3 gap-4 mt-8 animate-fadeIn delay-400">
-            <div className="flex flex-col items-center text-center p-3 bg-white rounded-xl shadow-sm border border-dame-beige/30 card-hover">
-              <span className="text-2xl mb-1">🚚</span>
-              <span className="text-xs font-semibold text-dame-brown">Livraison Garantie</span>
-            </div>
-            <div className="flex flex-col items-center text-center p-3 bg-white rounded-xl shadow-sm border border-dame-beige/30 card-hover">
-              <span className="text-2xl mb-1">✓</span>
-              <span className="text-xs font-semibold text-dame-brown">100% Frais</span>
-            </div>
-            <div className="flex flex-col items-center text-center p-3 bg-white rounded-xl shadow-sm border border-dame-beige/30 card-hover">
-              <span className="text-2xl mb-1">💳</span>
-              <span className="text-xs font-semibold text-dame-brown">Paiement Sécurisé</span>
-            </div>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <WhatsAppButton
+              label="💬 Réserver sur WhatsApp"
+              className="text-lg px-8 py-4"
+            />
+            <a href="#packs" className="text-white/80 hover:text-white font-semibold underline underline-offset-4 smooth-transition text-sm">
+              Voir nos formules ↓
+            </a>
           </div>
         </div>
-        <div className="relative animate-slideInRight">
-          <div className="absolute -top-10 -right-10 w-40 h-40 bg-dame-beige rounded-full blur-3xl opacity-50 -z-10 animate-pulse-slow"></div>
-          <div className="image-zoom rounded-3xl overflow-hidden">
-            <img
-              src="https://images.unsplash.com/photo-1517433367423-c7e5b0f35086?auto=format&fit=crop&q=80&w=800"
-              alt="Plateau Samoussa Premium"
-              className="rounded-3xl shadow-2xl border-8 border-white transform md:rotate-2 hover:rotate-0 transition-transform duration-500"
-            />
-          </div>
-          <div className="absolute bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl border border-dame-beige animate-bounce-slow">
-            <p className="text-dame-orange font-bold text-xl">23 000 F CFA</p>
-            <p className="text-dame-brown/50 text-xs line-through">30 000 F CFA</p>
+
+        {/* Bande de réassurance en bas du hero */}
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)', padding: '1rem 1.5rem', zIndex: 10 }}>
+          <div className="container mx-auto flex flex-wrap justify-center gap-6 md:gap-12 text-white text-sm font-semibold">
+            <span>🚚 Livraison garantie</span>
+            <span>🔥 Servi chaud</span>
+            <span>⭐ +200 clients satisfaits</span>
+            <span>📱 Paiement MTN MoMo</span>
           </div>
         </div>
       </section>
 
-      {/* Storytelling / Empathy Section */}
+      {/* Hook storytelling */}
       <section className="bg-dame-brown text-dame-white py-20">
         <div className="container mx-auto px-4 text-center max-w-4xl">
-          <h2 className="text-3xl md:text-4xl mb-8 font-title italic">"Vous n'êtes pas là pour cuisiner, vous êtes là pour briller."</h2>
+          <h2 className="text-3xl md:text-4xl mb-8 font-title italic">
+            "L'excellence des mignardises pour vos événements les plus précieux."
+          </h2>
           <p className="text-lg md:text-xl font-light opacity-90 leading-relaxed mb-12">
-            Imaginez-vous entouré de vos proches, le sourire aux lèvres, profitant pleinement de chaque rire et de chaque témoignage. 
-            Vous êtes l'invitée d'honneur pendant que <strong>Dame Samoussa</strong> transforme votre salon en buffet de bonheur. 
-            Pas de stress, pas de vaisselle interminable, juste le pur plaisir de la fête.
+            Parce que chaque fête mérite une saveur exceptionnelle.
           </p>
-          <div className="grid md:grid-cols-3 gap-8 text-left">
-            {benefits.slice(0, 3).map((b, i) => (
-              <div key={i} className={`bg-white/5 p-6 rounded-2xl border border-white/10 card-hover animate-fadeIn delay-${(i + 1) * 100}`}>
-                <div className="w-10 h-10 bg-dame-orange rounded-lg flex items-center justify-center mb-4 smooth-transition hover:scale-110 hover:rotate-3">
-                  <CheckIcon />
+          <WhatsAppButton
+            label="💬 Je veux ce service — WhatsApp"
+            className="text-xl px-10 py-5"
+          />
+        </div>
+      </section>
+
+      {/* Packs */}
+      <section id="packs" className="py-24 bg-white">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-dame-brown mb-4">Choisissez votre pack</h2>
+            <p className="text-dame-orange font-semibold tracking-widest uppercase">Des quantités pensées pour votre événement</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {packs.map((pack, i) => (
+              <div
+                key={i}
+                className={`rounded-3xl p-8 border-2 shadow-xl relative animate-scaleIn card-hover ${
+                  pack.highlight
+                    ? 'border-dame-orange bg-dame-white scale-105'
+                    : 'border-dame-beige/30 bg-white'
+                }`}
+              >
+                {pack.highlight && (
+                  <div className="absolute top-0 right-0 bg-dame-orange text-white px-4 py-2 rounded-bl-3xl rounded-tr-3xl font-bold text-sm badge-shine">
+                    ⭐ Le plus populaire
+                  </div>
+                )}
+                <h3 className="text-2xl font-bold text-dame-brown mb-2">{pack.name}</h3>
+                {pack.people && <p className="text-dame-brown/50 mb-6">{pack.people} personnes</p>}
+
+                {/* Prix */}
+                <div className="mb-6">
+                  <p className="text-4xl font-bold text-dame-orange">{pack.total.toLocaleString()} F CFA</p>
+                  {pack.people && <p className="text-sm text-dame-brown/50 mt-1">pour {pack.people} personnes</p>}
                 </div>
-                <p className="font-semibold">{b}</p>
+
+                {/* Quantités */}
+                <div className="bg-dame-beige/10 rounded-xl p-4 mb-6">
+                  <p className="text-xs font-bold text-dame-orange uppercase mb-2">Ce que vous recevez :</p>
+                  <ul className="space-y-2">
+                    {pack.items.map((item, j) => (
+                      <li key={j} className="flex items-center gap-2 text-sm text-dame-brown">
+                        <CheckIcon />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <WhatsAppButton
+                  label={`💬 Commander ce pack`}
+                  className={`w-full text-base py-4 ${!pack.highlight ? 'opacity-90' : ''}`}
+                />
+              </div>
+            ))}
+          </div>
+
+          <p className="text-center text-dame-brown/50 mt-8 text-sm">
+            💬 Vous avez plus de 50 personnes ? Écrivez-nous sur WhatsApp pour un devis personnalisé.
+          </p>
+        </div>
+      </section>
+
+      {/* Témoignages */}
+      <section className="py-20 bg-dame-beige/10">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <h2 className="text-3xl font-bold text-center text-dame-brown mb-12">Ce que disent nos clientes</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((t, i) => (
+              <div key={i} className="bg-white p-8 rounded-2xl shadow-sm border border-dame-beige/30 card-hover animate-fadeIn">
+                <p className="text-dame-orange font-bold mb-1">{'⭐'.repeat(t.stars)}</p>
+                <p className="text-dame-brown/80 italic mb-4 leading-relaxed">"{t.text}"</p>
+                <p className="font-bold text-dame-brown text-sm">{t.name}</p>
+                <p className="text-dame-brown/40 text-xs">{t.city}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Offer Section */}
-      <section className="py-24 bg-white">
-        <div className="container mx-auto px-4 max-w-5xl">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-dame-brown mb-4">Le Pack Anniversaire VIP (8 personnes)</h2>
-            <p className="text-dame-orange font-semibold tracking-widest uppercase">Tout ce qu'il vous faut pour un succès total</p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-4">
-              {menuItems.map((item, i) => (
-                <div key={i} className={`flex items-center gap-4 p-4 rounded-xl hover:bg-dame-beige/10 smooth-transition border border-transparent hover:border-dame-beige/20 card-hover animate-fadeIn delay-${i * 100}`}>
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-dame-beige/20 flex items-center justify-center text-dame-orange font-bold smooth-transition hover:scale-125 hover:bg-dame-orange hover:text-white">
-                    {i + 1}
-                  </div>
-                  <span className="text-lg font-medium text-dame-brown">{item}</span>
-                </div>
-              ))}
-              <div className="mt-8 p-6 bg-dame-beige/20 rounded-2xl border-2 border-dashed border-dame-orange/30">
-                <p className="font-bold text-dame-orange mb-2">🎁 BONUS VIP INCLUS :</p>
-                <ul className="space-y-2 text-sm text-dame-brown font-semibold">
-                  <li className="flex items-center gap-2">• Sauce signature Dame Samoussa (Recette secrète)</li>
-                  <li className="flex items-center gap-2">• Carte d’anniversaire personnalisée à votre nom</li>
-                </ul>
-              </div>
-            </div>
-            
-            <div className="bg-dame-white rounded-3xl p-8 border-2 border-dame-orange shadow-2xl relative animate-scaleIn delay-200 hover:shadow-3xl hover:scale-105 smooth-transition">
-              <div className="absolute top-0 right-0 bg-dame-orange text-white px-6 py-2 rounded-bl-3xl rounded-tr-3xl font-bold animate-pulse-slow badge-shine">
-                🔥 -23% MAINTENANT
-              </div>
-              <h3 className="text-2xl font-bold mb-8 text-dame-brown">Détails de votre privilège</h3>
-              <div className="space-y-6 mb-8">
-                <div className="flex justify-between items-center border-b border-dame-beige pb-4">
-                  <span className="text-dame-brown/60">Prix Public</span>
-                  <span className="text-xl line-through opacity-50">30 000 F CFA</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-dame-brown font-bold text-xl">Prix Réservation Anticipée</span>
-                  <span className="text-3xl font-bold text-dame-orange">23 000 F CFA</span>
-                </div>
-              </div>
-              
-              <div className="bg-dame-brown text-white p-4 rounded-xl text-center mb-8 timer-ring">
-                <p className="text-sm opacity-80 mb-1">⏰ Cette offre expire dans :</p>
-                <p className="text-2xl md:text-3xl font-mono font-bold tracking-widest timer-pulse">{formatTime(timeLeft)}</p>
-                <p className="text-xs opacity-60 mt-1">Réservez maintenant avant qu'il ne soit trop tard !</p>
-              </div>
-
-              <button
-                onClick={() => onNext({})}
-                className="w-full bg-dame-orange text-white py-5 rounded-2xl font-bold text-xl shadow-lg shadow-dame-orange/40 hover:scale-105 smooth-transition cta-button mb-4 min-h-[60px] hover:shadow-2xl"
-              >
-                🎉 Réserver mon Pack VIP maintenant
-              </button>
-              <p className="text-center text-xs text-dame-brown/60 flex items-center justify-center gap-2">
-                <span className="text-green-600">✓</span>
-                Garantie satisfaction : Délicieux ou Remboursé !
-              </p>
-            </div>
-          </div>
+      {/* CTA Final */}
+      <section className="py-24 bg-dame-orange">
+        <div className="container mx-auto px-4 text-center max-w-2xl">
+          <h2 className="text-4xl font-bold text-white mb-6">Prêt(e) à passer commande ?</h2>
+          <p className="text-white/90 text-xl mb-10 leading-relaxed">
+            Écrivez-nous sur WhatsApp. Notre équipe vous répond en moins de 5 minutes et s'occupe de tout.
+          </p>
+          <a
+            href={WHATSAPP_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center bg-white text-dame-orange font-bold text-xl px-12 py-5 rounded-2xl shadow-2xl hover:scale-105 smooth-transition min-h-[64px]"
+          >
+            💬 Réserver maintenant sur WhatsApp
+          </a>
+          <p className="text-white/60 text-sm mt-6">Réponse garantie en moins de 5 minutes • Paiement MTN MoMo / Moov Money</p>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="py-20 bg-dame-beige/10">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4 max-w-3xl">
-          <h2 className="text-3xl font-bold text-center mb-12">Questions fréquentes</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 text-dame-brown">Questions fréquentes</h2>
           <div className="space-y-4">
-            {[
-              { q: "Comment se passe la livraison ?", a: "Nous livrons partout dans la ville. Les snacks arrivent chauds et croustillants dans des emballages premium." },
-              { q: "Puis-je changer les ingrédients ?", a: "Oui, vous pouvez choisir entre viande, poulet ou poisson pour vos samoussas lors de la commande." },
-              { q: "À quel moment dois-je commander ?", a: "Le pack VIP nécessite une réservation 48h à l'avance pour garantir la fraîcheur artisanale." }
-            ].map((item, i) => (
-              <details key={i} className={`group bg-white p-6 rounded-2xl shadow-sm border border-dame-beige/30 cursor-pointer card-hover animate-fadeIn delay-${i * 100}`}>
-                <summary className="font-bold text-lg flex justify-between items-center list-none smooth-transition hover:text-dame-orange">
+            {faqs.map((item, i) => (
+              <details key={i} className="group bg-dame-beige/10 p-6 rounded-2xl border border-dame-beige/30 cursor-pointer card-hover">
+                <summary className="font-bold text-lg flex justify-between items-center list-none smooth-transition hover:text-dame-orange text-dame-brown">
                   {item.q}
                   <span className="text-dame-orange group-open:rotate-180 smooth-transition">↓</span>
                 </summary>
-                <p className="mt-4 text-dame-brown/70 leading-relaxed animate-fadeIn">{item.a}</p>
+                <p className="mt-4 text-dame-brown/70 leading-relaxed">{item.a}</p>
               </details>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="bg-dame-brown text-white/70 py-8 text-center text-sm">
+        <p className="font-bold text-white text-base mb-1">Dame Samoussa</p>
+        <p>Cotonou, Bénin</p>
+        <a href="tel:+2290167823234" className="text-dame-orange font-semibold hover:underline">
+          +229 01 67 82 32 34
+        </a>
+        <p className="mt-4 text-white/40 text-xs">© {new Date().getFullYear()} Dame Samoussa — Tous droits réservés</p>
+      </footer>
+
+      {/* Sticky mobile CTA */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-white/90 backdrop-blur-md border-t border-dame-beige z-40">
+        <WhatsAppButton
+          label="💬 Réserver sur WhatsApp"
+          className="w-full text-base py-4"
+        />
+      </div>
     </div>
   );
 };
