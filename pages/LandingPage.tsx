@@ -288,7 +288,7 @@ const LandingPage: React.FC = () => {
             Écrivez-nous sur WhatsApp. Notre équipe vous répond en moins de 5 minutes et s'occupe de tout.
           </p>
           <a
-            href={WHATSAPP_LINK}
+            href={getWhatsAppLink()}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center bg-white text-dame-orange font-bold text-xl px-12 py-5 rounded-2xl shadow-2xl hover:scale-105 smooth-transition min-h-[64px]"
