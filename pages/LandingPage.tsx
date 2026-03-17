@@ -4,15 +4,55 @@ import { CheckIcon } from '../constants';
 
 const WHATSAPP_NUMBER = '22967823234';
 const PHONE_DISPLAY = '+229 01 67 82 32 34';
-const WHATSAPP_MESSAGE = encodeURIComponent('Bonjour Dame Samoussa ! Je veux réserver un pack 🎉');
-const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`;
+const SITE_URL = 'https://hounsoupeninna-gif.github.io/Dame-samoussa/';
+
+const SOURCE_LABELS: Record<string, string> = {
+  facebook: 'votre publicité Facebook',
+  instagram: 'votre publication Instagram',
+  tiktok: 'votre vidéo TikTok',
+  whatsapp: 'votre statut WhatsApp',
+  google: 'Google',
+};
+
+const getWhatsAppLink = (): string => {
+  const params = new URLSearchParams(window.location.search);
+  const source = params.get('utm_source') || '';
+  const sourceLabel = SOURCE_LABELS[source.toLowerCase()] || null;
+  const message = sourceLabel
+    ? `Bonjour Dame Samoussa ! Je vous contacte suite à ${sourceLabel} 🎉`
+    : `Bonjour Dame Samoussa ! Je veux réserver un pack 🎉`;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+};
+
+const ShareButton: React.FC = () => {
+  const shareText = 'Dame Samoussa — Petits fours & snacks livrés pour vos événements à Cotonou 🎉';
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: 'Dame Samoussa', text: shareText, url: SITE_URL });
+      } catch (_) {}
+    } else {
+      window.open(`https://wa.me/?text=${encodeURIComponent(shareText + '\n' + SITE_URL)}`, '_blank');
+    }
+  };
+
+  return (
+    <button
+      onClick={handleShare}
+      className="inline-flex items-center gap-2 bg-white/10 border border-white/30 text-white font-semibold px-5 py-2.5 rounded-xl hover:bg-white/20 smooth-transition text-sm"
+    >
+      🔗 Partager la page
+    </button>
+  );
+};
 
 const WhatsAppButton: React.FC<{ label?: string; className?: string }> = ({
   label = '💬 Réserver sur WhatsApp',
   className = '',
 }) => (
   <a
-    href={WHATSAPP_LINK}
+    href={getWhatsAppLink()}
     target="_blank"
     rel="noopener noreferrer"
     className={`inline-flex items-center justify-center bg-dame-orange text-white font-bold rounded-xl shadow-xl shadow-dame-orange/30 hover:scale-105 smooth-transition cta-button min-h-[56px] hover:shadow-2xl hover:shadow-dame-orange/40 ${className}`}
@@ -256,6 +296,9 @@ const LandingPage: React.FC = () => {
             💬 Réserver maintenant sur WhatsApp
           </a>
           <p className="text-white/60 text-sm mt-6">Réponse garantie en moins de 5 minutes • Paiement MTN MoMo / Moov Money</p>
+          <div className="mt-6">
+            <ShareButton />
+          </div>
         </div>
       </section>
 
