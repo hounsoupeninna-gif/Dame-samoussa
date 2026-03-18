@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1200px;
+    height: 630px;
+    background: #4A1F0F;
+    font-family: Georgia, serif;
+    overflow: hidden;
+  }
+  .bg-pattern {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 80% 50%, #E66A1A44 0%, transparent 60%),
+      radial-gradient(circle at 20% 80%, #F28C2833 0%, transparent 50%);
+  }
+  .container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 60px 80px;
+    gap: 60px;
+  }
+  .left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 24px;
+  }
+  .badge {
+    display: inline-block;
+    background: #E66A1A;
+    color: #FAF7F2;
+    font-size: 18px;
+    padding: 8px 20px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    width: fit-content;
+  }
+  h1 {
+    color: #FAF7F2;
+    font-size: 68px;
+    line-height: 1.1;
+    font-weight: bold;
+  }
+  h1 span { color: #F28C28; }
+  .subtitle {
+    color: #F3D6A4;
+    font-size: 26px;
+    line-height: 1.4;
+  }
+  .divider {
+    width: 80px;
+    height: 4px;
+    background: #E66A1A;
+    border-radius: 2px;
+  }
+  .right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+  .emoji-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .emoji-box {
+    width: 120px;
+    height: 120px;
+    background: #F3D6A422;
+    border: 2px solid #E66A1A66;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 56px;
+  }
+  .whatsapp {
+    background: #25D366;
+    color: white;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-size: 20px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cotonou {
+    color: #F3D6A4;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    opacity: 0.8;
+  }
+</style>
+</head>
+<body>
+  <div class="bg-pattern"></div>
+  <div class="container">
+    <div class="left">
+      <div class="badge">Snacks & Petits Fours</div>
+      <h1>Dame<br><span>Samoussa</span></h1>
+      <div class="divider"></div>
+      <div class="subtitle">Anniversaires · Mariages · Baptêmes<br>Livraison à Cotonou</div>
+    </div>
+    <div class="right">
+      <div class="emoji-grid">
+        <div class="emoji-box">🥟</div>
+        <div class="emoji-box">🍕</div>
+        <div class="emoji-box">🥞</div>
+        <div class="emoji-box">🍤</div>
+      </div>
+      <div class="whatsapp">
+        📱 Commander sur WhatsApp
+      </div>
+      <div class="cotonou">Paiement MTN MoMo · Moov Money</div>
+    </div>
+  </div>
+</body>
+</html>
