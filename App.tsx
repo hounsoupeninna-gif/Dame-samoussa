@@ -73,7 +73,7 @@ const App: React.FC = () => {
               </li>
               <li className="flex items-center gap-3">
                 <MailIcon className="w-4 h-4 text-dame-orange flex-shrink-0" />
-                <a href="mailto:hello@damesamoussa.com" className="hover:text-dame-orange smooth-transition">hello@damesamoussa.com</a>
+                <a href="mailto:adagbenon.fifame@gmail.com" className="hover:text-dame-orange smooth-transition">adagbenon.fifame@gmail.com</a>
               </li>
             </ul>
           </div>
