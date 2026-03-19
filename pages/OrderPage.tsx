@@ -6,45 +6,17 @@ import { OrderDetails, UserData } from '../types';
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxcSt_jXRRqUDqkfVfH3lDLZejVQhrxPL85eTPM55OJaoCdLsmFGIOFYA9COnI17qir/exec';
 
 const sendToSheets = (userData: UserData) => {
-  try {
-    const iframe = document.createElement('iframe');
-    iframe.style.display = 'none';
-    iframe.name = 'gs-frame';
-    document.body.appendChild(iframe);
-
-    const form = document.createElement('form');
-    form.method = 'GET';
-    form.action = APPS_SCRIPT_URL;
-    form.target = 'gs-frame';
-
-    // Les paramètres doivent être des <input hidden> — sinon GET les supprime
-    const fields: Record<string, string> = {
-      name: userData.name,
-      whatsapp: userData.whatsapp,
-      email: userData.email || '',
-      eventType: userData.eventType,
-      eventDate: userData.eventDate,
-      quartier: userData.quartier,
-      packName: userData.packName,
-      packTotal: userData.packTotal.toString(),
-    };
-
-    Object.entries(fields).forEach(([key, value]) => {
-      const input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = key;
-      input.value = value;
-      form.appendChild(input);
-    });
-
-    document.body.appendChild(form);
-    form.submit();
-
-    setTimeout(() => {
-      document.body.removeChild(form);
-      document.body.removeChild(iframe);
-    }, 5000);
-  } catch (_) {}
+  const params = new URLSearchParams({
+    name: userData.name,
+    whatsapp: userData.whatsapp,
+    email: userData.email || '',
+    eventType: userData.eventType,
+    eventDate: userData.eventDate,
+    quartier: userData.quartier,
+    packName: userData.packName,
+    packTotal: userData.packTotal.toString(),
+  });
+  new Image().src = `${APPS_SCRIPT_URL}?${params.toString()}`;
 };
 
 interface OrderPageProps {
