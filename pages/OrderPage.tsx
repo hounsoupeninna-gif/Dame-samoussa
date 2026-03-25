@@ -41,6 +41,7 @@ const OrderPage: React.FC<OrderPageProps> = ({ orderDetails, onSubmit, onBack })
     quartier: '',
   });
   const [bumpAdded, setBumpAdded] = useState(false);
+  const [gdprAccepted, setGdprAccepted] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
 
@@ -58,6 +59,7 @@ const OrderPage: React.FC<OrderPageProps> = ({ orderDetails, onSubmit, onBack })
     if (!form.eventType) e.eventType = 'Choisissez un type d\'événement.';
     if (!form.eventDate) e.eventDate = 'Choisissez une date.';
     if (!form.quartier) e.quartier = 'Choisissez votre quartier.';
+    if (!gdprAccepted) e.gdpr = 'Vous devez accepter la politique de confidentialité pour continuer.';
     return e;
   };
 
@@ -254,6 +256,25 @@ const OrderPage: React.FC<OrderPageProps> = ({ orderDetails, onSubmit, onBack })
               </p>
             </div>
           </label>
+
+          {/* GDPR */}
+          <div>
+            <label className={`flex items-start gap-3 cursor-pointer ${errors.gdpr ? 'text-red-500' : 'text-dame-brown/60'}`}>
+              <input
+                type="checkbox"
+                checked={gdprAccepted}
+                onChange={e => {
+                  setGdprAccepted(e.target.checked);
+                  if (errors.gdpr) setErrors(prev => ({ ...prev, gdpr: '' }));
+                }}
+                className="mt-0.5 w-4 h-4 flex-shrink-0 accent-dame-orange cursor-pointer"
+              />
+              <span className="text-xs leading-relaxed">
+                J'accepte que mes données personnelles (nom, WhatsApp, email) soient utilisées par <strong>Dame Samoussa</strong> uniquement pour traiter ma commande et me recontacter via WhatsApp. Ces données ne seront jamais cédées à des tiers. <span className="text-dame-orange">*</span>
+              </span>
+            </label>
+            {errors.gdpr && <p className="text-red-500 text-xs mt-1.5 ml-7">{errors.gdpr}</p>}
+          </div>
 
           {/* Submit */}
           <button
