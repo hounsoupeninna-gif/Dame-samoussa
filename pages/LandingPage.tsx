@@ -184,8 +184,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onSelectPack }) => {
               Soyez la star de votre fête,
             </span>
             <span className="block text-2xl md:text-3xl font-normal text-white/85">
-              On s'occupe de tout —{' '}
-              <span className="text-dame-orange font-semibold italic">nous nous occupons de tout.</span>
+              <span className="text-dame-orange font-semibold italic">Nous nous occupons de tout.</span>
             </span>
           </h1>
 
