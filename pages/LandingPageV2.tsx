@@ -76,7 +76,7 @@ const testimonials = [
 const faqs = [
   { q: 'Comment se passe la livraison ?', a: 'Nous livrons partout à Cotonou et environs. Vos mignardises arrivent chaudes et croustillantes dans des emballages premium.' },
   { q: 'Puis-je choisir le type de samoussa ?', a: 'Oui ! Viande, poulet ou poisson — vous choisissez lors de la discussion sur WhatsApp.' },
-  { q: 'Quand dois-je commander ?', a: "Nous recommandons une réservation 48h à l'avance pour garantir la fraîcheur artisanale." },
+  { q: 'Quand dois-je commander ?', a: "Nous recommandons une réservation 48h à l'avance pour garantir une fraîcheur et un croustillant garantis." },
   { q: 'Comment se passe le paiement ?', a: 'Paiement via MTN MoMo ou Moov Money. Notre équipe vous guide directement sur WhatsApp.' },
 ];
 
@@ -166,7 +166,7 @@ const LandingPageV2: React.FC = () => {
             {/* Piliers */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
               {[
-                { icon: <FlameIcon className="w-5 h-5" />, titre: 'Fait maison', desc: 'Préparé artisanalement le jour même.' },
+                { icon: <FlameIcon className="w-5 h-5" />, titre: 'Cuisiné avec passion', desc: 'Préparé avec soin le jour même — chaud, croustillant et irrésistible.' },
                 { icon: <TruckIcon className="w-5 h-5" />, titre: 'Livré chez vous', desc: 'Emballages premium, mignardises chaudes à l\'arrivée.' },
                 { icon: <StarIcon className="w-5 h-5" />, titre: '+200 familles ravies', desc: 'Notre réputation, construite événement après événement.' },
               ].map((p, i) => (

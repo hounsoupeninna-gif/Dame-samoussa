@@ -1,17 +1,18 @@
 
-export type FunnelStep = 'landing' | 'upsell' | 'downsell' | 'order' | 'thanks' | 'automation';
+export type FunnelStep = 'landing' | 'order' | 'thanks';
 
 export interface UserData {
   name: string;
+  whatsapp: string;
   email: string;
-  phone: string;
-  birthday: string;
-  city: string;
+  eventType: string;
+  eventDate: string;
+  quartier: string;
+  packName: string;
+  packTotal: number;
 }
 
 export interface OrderDetails {
-  basePack: boolean;
-  premiumPack: boolean;
-  snackTray: boolean;
+  packName: string;
   total: number;
 }

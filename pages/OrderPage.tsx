@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { Loader2, Lock, Zap, CheckCircle2 } from 'lucide-react';
 import { WhatsAppIcon, CheckIcon } from '../constants';
 import { OrderDetails, UserData } from '../types';
 
@@ -39,8 +40,13 @@ const OrderPage: React.FC<OrderPageProps> = ({ orderDetails, onSubmit, onBack })
     eventDate: '',
     quartier: '',
   });
+  const [bumpAdded, setBumpAdded] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+
+  const BUMP_PRICE = 4000;
+  const finalTotal = orderDetails.total + (bumpAdded ? BUMP_PRICE : 0);
+  const finalPackName = bumpAdded ? `${orderDetails.packName} + Plateau Bonus` : orderDetails.packName;
 
   const validate = () => {
     const e: Record<string, string> = {};
@@ -72,8 +78,8 @@ const OrderPage: React.FC<OrderPageProps> = ({ orderDetails, onSubmit, onBack })
       eventType: form.eventType,
       eventDate: form.eventDate,
       quartier: form.quartier,
-      packName: orderDetails.packName,
-      packTotal: orderDetails.total,
+      packName: finalPackName,
+      packTotal: finalTotal,
     };
     sendToSheets(userData);
     setTimeout(() => onSubmit(userData), 300);
@@ -82,7 +88,7 @@ const OrderPage: React.FC<OrderPageProps> = ({ orderDetails, onSubmit, onBack })
   const today = new Date().toISOString().split('T')[0];
 
   return (
-    <div className="pt-40 pb-24 bg-dame-white min-h-screen">
+    <div className="pt-32 pb-24 bg-dame-white min-h-screen">
       <div className="container mx-auto px-4 max-w-2xl">
 
         {/* En-tête */}
@@ -102,10 +108,10 @@ const OrderPage: React.FC<OrderPageProps> = ({ orderDetails, onSubmit, onBack })
         <div className="bg-dame-brown rounded-2xl px-6 py-5 flex items-center justify-between mb-8">
           <div>
             <p className="text-white/50 text-xs uppercase tracking-widest font-semibold mb-0.5">Votre commande</p>
-            <p className="text-white font-bold text-lg">{orderDetails.packName}</p>
+            <p className="text-white font-bold text-lg">{finalPackName}</p>
           </div>
           <div className="text-right">
-            <p className="text-dame-orange font-bold text-2xl">{orderDetails.total.toLocaleString('fr-FR')}</p>
+            <p className="text-dame-orange font-bold text-2xl">{finalTotal.toLocaleString('fr-FR')}</p>
             <p className="text-white/50 text-sm font-semibold">F CFA</p>
           </div>
         </div>
@@ -228,6 +234,27 @@ const OrderPage: React.FC<OrderPageProps> = ({ orderDetails, onSubmit, onBack })
             </div>
           </div>
 
+          {/* Order Bump */}
+          <label
+            className={`flex items-start gap-4 rounded-2xl border-2 p-5 cursor-pointer smooth-transition ${bumpAdded ? 'border-dame-orange bg-dame-orange/5' : 'border-dame-beige hover:border-dame-orange/40'}`}
+          >
+            <input
+              type="checkbox"
+              checked={bumpAdded}
+              onChange={e => setBumpAdded(e.target.checked)}
+              className="mt-1 w-5 h-5 accent-dame-orange flex-shrink-0 cursor-pointer"
+            />
+            <div className="flex-1">
+              <div className="flex items-center justify-between mb-1">
+                <p className="font-bold text-dame-brown text-sm">Ajouter un Plateau Bonus</p>
+                <span className="bg-dame-orange text-white text-xs font-bold px-3 py-1 rounded-full">+ 4 000 F CFA</span>
+              </div>
+              <p className="text-dame-brown/60 text-sm leading-relaxed">
+                <strong className="text-dame-brown">10 Samoussas + 5 Nems</strong> bien croustillants en supplément — au cas où vos invités en redemandent.
+              </p>
+            </div>
+          </label>
+
           {/* Submit */}
           <button
             type="submit"
@@ -236,7 +263,7 @@ const OrderPage: React.FC<OrderPageProps> = ({ orderDetails, onSubmit, onBack })
           >
             {submitted ? (
               <>
-                <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeDasharray="40" strokeDashoffset="10" /></svg>
+                <Loader2 className="w-5 h-5 animate-spin" />
                 Envoi en cours…
               </>
             ) : (
@@ -259,12 +286,12 @@ const OrderPage: React.FC<OrderPageProps> = ({ orderDetails, onSubmit, onBack })
         {/* Réassurance */}
         <div className="grid grid-cols-3 gap-4 mt-8 text-center">
           {[
-            { icon: '🔒', label: 'Données sécurisées' },
-            { icon: '⚡', label: 'Réponse < 5 min' },
-            { icon: '✅', label: 'Satisfaction garantie' },
+            { icon: <Lock className="w-5 h-5 text-dame-orange mx-auto" />, label: 'Données sécurisées' },
+            { icon: <Zap className="w-5 h-5 text-dame-orange mx-auto" />, label: 'Réponse < 5 min' },
+            { icon: <CheckCircle2 className="w-5 h-5 text-dame-orange mx-auto" />, label: 'Satisfaction garantie' },
           ].map((item, i) => (
             <div key={i} className="bg-white rounded-2xl border border-dame-beige/40 p-4">
-              <div className="text-2xl mb-1">{item.icon}</div>
+              <div className="mb-2">{item.icon}</div>
               <p className="text-dame-brown/60 text-xs font-semibold">{item.label}</p>
             </div>
           ))}

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { ArrowDown, ChevronDown } from 'lucide-react';
 import { CheckIcon, WhatsAppIcon, ShareIcon, TruckIcon, FlameIcon, StarIcon, CreditCardIcon } from '../constants';
 
 const WHATSAPP_NUMBER = '22967823234';
@@ -68,7 +69,9 @@ const packs = [
     name: 'Pack Anniversaire',
     subtitle: 'Idéal pour les petites fêtes',
     people: null,
-    total: 24000,
+    total: 19900,
+    originalTotal: 24000,
+    promoLabel: 'Offre ce mois-ci',
     items: ['10 Samoussas', '10 Mini Pizzas', '10 Friands', '10 Crêpes', '10 Nems'],
     highlight: true,
     badge: 'Le plus populaire',
@@ -78,6 +81,8 @@ const packs = [
     subtitle: 'Saveurs végétales généreuses',
     people: null,
     total: 23000,
+    originalTotal: null,
+    promoLabel: null,
     items: ['20 Samoussas épinards/pomme de terre', '20 Mini Pizzas champignon', '20 Crêpes'],
     highlight: false,
     badge: null,
@@ -87,6 +92,8 @@ const packs = [
     subtitle: 'Pour les grandes célébrations',
     people: 250,
     total: 77250,
+    originalTotal: null,
+    promoLabel: null,
     items: ['50 Samoussas', '50 Mini Pizzas', '50 Friands', '50 Nems', '50 Croissants jambon'],
     highlight: false,
     badge: 'Pour 250 personnes',
@@ -128,7 +135,7 @@ const faqs = [
   },
   {
     q: 'Quand dois-je commander ?',
-    a: "Nous recommandons une réservation 48h à l'avance pour garantir la fraîcheur artisanale.",
+    a: "Nous recommandons une réservation 48h à l'avance pour garantir une fraîcheur et un croustillant garantis.",
   },
   {
     q: 'Comment se passe le paiement ?',
@@ -136,12 +143,16 @@ const faqs = [
   },
 ];
 
-const LandingPage: React.FC = () => {
+interface LandingPageProps {
+  onSelectPack: (packName: string, packTotal: number) => void;
+}
+
+const LandingPage: React.FC<LandingPageProps> = ({ onSelectPack }) => {
   return (
     <div className="pb-20 md:pb-0">
 
       {/* ── HERO ── */}
-      <section style={{ height: '100svh', minHeight: '640px', marginTop: '-5rem', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ height: '100svh', minHeight: '640px', marginTop: '-5rem', paddingTop: '2rem', position: 'relative', overflow: 'hidden' }}>
         <video
           src="/hero.mp4"
           autoPlay muted loop playsInline
@@ -160,9 +171,9 @@ const LandingPage: React.FC = () => {
           padding: '0 1.5rem', zIndex: 10,
         }}>
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 mb-10" style={{ background: 'rgba(230,106,26,0.18)', border: '1px solid rgba(230,106,26,0.5)', borderRadius: '100px', padding: '8px 22px' }}>
-            <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#E66A1A', display: 'inline-block', flexShrink: 0 }} />
-            <span style={{ color: '#F28C28', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+          <div className="inline-flex items-center gap-2 mb-10" style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.5)', backdropFilter: 'blur(8px)', borderRadius: '100px', padding: '8px 22px' }}>
+            <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#F28C28', display: 'inline-block', flexShrink: 0 }} />
+            <span style={{ color: '#ffffff', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
               Traiteur événementiel · Cotonou, Bénin
             </span>
           </div>
@@ -170,10 +181,10 @@ const LandingPage: React.FC = () => {
           {/* Titre */}
           <h1 className="font-title text-white leading-tight mb-6 drop-shadow-lg" style={{ maxWidth: '54rem' }}>
             <span className="block text-4xl md:text-6xl font-bold mb-4">
-              Soyez l'invité d'honneur,
+              Soyez la star de votre fête,
             </span>
             <span className="block text-2xl md:text-3xl font-normal text-white/85">
-              De votre propre fête —{' '}
+              On s'occupe de tout —{' '}
               <span className="text-dame-orange font-semibold italic">nous nous occupons de tout.</span>
             </span>
           </h1>
@@ -184,10 +195,16 @@ const LandingPage: React.FC = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <WhatsAppButton label="Réserver sur WhatsApp" className="text-lg px-8 py-4 rounded-2xl" />
+            <button
+              onClick={() => onSelectPack('Pack Anniversaire', 19900)}
+              className="inline-flex items-center justify-center gap-3 bg-dame-orange text-white font-bold text-lg px-8 py-4 rounded-2xl shadow-xl shadow-dame-orange/30 hover:bg-dame-orange-light hover:-translate-y-0.5 smooth-transition cta-button min-h-[56px]"
+            >
+              <WhatsAppIcon className="w-5 h-5 flex-shrink-0" />
+              Réserver sur WhatsApp
+            </button>
             <a href="#packs" className="text-white/80 hover:text-white font-semibold smooth-transition text-sm flex items-center gap-1">
               Voir nos formules
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+              <ArrowDown className="w-4 h-4" />
             </a>
           </div>
         </div>
@@ -216,7 +233,7 @@ const LandingPage: React.FC = () => {
           {/* 3 piliers */}
           <div className="grid md:grid-cols-3 gap-8 mb-14 text-left">
             {[
-              { icon: <FlameIcon className="w-6 h-6 text-dame-orange" />, titre: 'Fait maison', desc: 'Préparé artisanalement le jour même pour une fraîcheur garantie.' },
+              { icon: <FlameIcon className="w-6 h-6 text-dame-orange" />, titre: 'Cuisiné avec passion', desc: 'Préparé avec soin le jour même — chaud, croustillant et irrésistible.' },
               { icon: <TruckIcon className="w-6 h-6 text-dame-orange" />, titre: 'Livré chez vous', desc: 'Emballages premium pour que vos mignardises arrivent chaudes et croustillantes.' },
               { icon: <StarIcon className="w-6 h-6 text-dame-orange" />, titre: 'Satisfaction totale', desc: '+200 familles satisfaites à Cotonou. Votre bonheur est notre fierté.' },
             ].map((p, i) => (
@@ -227,7 +244,13 @@ const LandingPage: React.FC = () => {
               </div>
             ))}
           </div>
-          <WhatsAppButton label="Je veux ce service" className="text-lg px-10 py-4" />
+          <button
+            onClick={() => onSelectPack('Pack Anniversaire', 19900)}
+            className="inline-flex items-center justify-center gap-3 bg-dame-orange text-white font-bold text-lg px-10 py-4 rounded-2xl shadow-xl shadow-dame-orange/30 hover:bg-dame-orange-light hover:-translate-y-0.5 smooth-transition cta-button min-h-[56px]"
+          >
+            <WhatsAppIcon className="w-5 h-5 flex-shrink-0" />
+            Je veux ce service
+          </button>
         </div>
       </section>
 
@@ -263,10 +286,25 @@ const LandingPage: React.FC = () => {
 
                   {/* Prix */}
                   <div className="mb-6">
+                    {pack.promoLabel && (
+                      <span className="inline-block bg-dame-orange text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide mb-2">
+                        {pack.promoLabel}
+                      </span>
+                    )}
+                    {pack.originalTotal && (
+                      <p className={`text-sm line-through mb-0.5 ${pack.highlight ? 'text-white/40' : 'text-dame-brown/35'}`}>
+                        {pack.originalTotal.toLocaleString('fr-FR')} F CFA
+                      </p>
+                    )}
                     <p className={`text-4xl font-bold ${pack.highlight ? 'text-dame-orange' : 'text-dame-orange'}`}>
                       {pack.total.toLocaleString('fr-FR')}
                       <span className="text-lg font-semibold ml-1">F CFA</span>
                     </p>
+                    {pack.originalTotal && (
+                      <p className="text-xs text-green-400 font-bold mt-1">
+                        Vous économisez {(pack.originalTotal - pack.total).toLocaleString('fr-FR')} F CFA
+                      </p>
+                    )}
                     {pack.people && <p className={`text-sm mt-1 ${pack.highlight ? 'text-white/50' : 'text-dame-brown/40'}`}>pour {pack.people} personnes</p>}
                   </div>
 
@@ -280,10 +318,13 @@ const LandingPage: React.FC = () => {
                     ))}
                   </ul>
 
-                  <WhatsAppButton
-                    label="Commander ce pack"
-                    className={`w-full py-4 text-base ${!pack.highlight ? 'bg-dame-orange' : 'bg-dame-orange'}`}
-                  />
+                  <button
+                    onClick={() => onSelectPack(pack.name, pack.total)}
+                    className="w-full inline-flex items-center justify-center gap-3 bg-dame-orange text-white font-bold py-4 text-base rounded-2xl shadow-xl shadow-dame-orange/30 hover:-translate-y-0.5 smooth-transition cta-button min-h-[52px]"
+                  >
+                    <WhatsAppIcon className="w-4 h-4 flex-shrink-0" />
+                    Commander ce pack
+                  </button>
                 </div>
               </div>
             ))}
@@ -339,15 +380,12 @@ const LandingPage: React.FC = () => {
           <p className="text-white/75 text-lg mb-10 leading-relaxed">
             Écrivez-nous sur WhatsApp. Notre équipe vous répond en moins de 5 minutes et s'occupe de tout.
           </p>
-          <a
-            href={getWhatsAppLink()}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Réserver maintenant sur WhatsApp"
+          <button
+            onClick={() => onSelectPack('Pack Anniversaire', 19900)}
             className="inline-flex items-center justify-center gap-3 bg-dame-orange text-white font-bold text-lg px-10 py-5 rounded-2xl shadow-2xl hover:-translate-y-1 hover:bg-dame-orange-light smooth-transition"
           >
             <WhatsAppIcon className="w-6 h-6" /> Réserver maintenant
-          </a>
+          </button>
           <p className="text-white/40 text-sm mt-6">Réponse en moins de 5 min · MTN MoMo · Moov Money</p>
           <div className="mt-8">
             <ShareButton />
@@ -367,7 +405,7 @@ const LandingPage: React.FC = () => {
               <details key={i} className="group bg-white border border-dame-beige/40 rounded-2xl overflow-hidden cursor-pointer">
                 <summary className="font-semibold text-base flex justify-between items-center px-6 py-5 list-none hover:text-dame-orange smooth-transition text-dame-brown select-none">
                   {item.q}
-                  <svg className="w-5 h-5 text-dame-orange flex-shrink-0 group-open:rotate-180 smooth-transition" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 9l-7 7-7-7"/></svg>
+                  <ChevronDown className="w-5 h-5 text-dame-orange flex-shrink-0 group-open:rotate-180 smooth-transition" />
                 </summary>
                 <p className="px-6 pb-5 text-dame-brown/65 leading-relaxed text-sm">{item.a}</p>
               </details>
@@ -379,7 +417,13 @@ const LandingPage: React.FC = () => {
       {/* ── STICKY MOBILE CTA ── */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-40"
            style={{ background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(12px)', borderTop: '1px solid rgba(243,214,164,0.5)', padding: '0.75rem 1rem', paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}>
-        <WhatsAppButton label="Réserver sur WhatsApp" className="w-full text-base py-4" />
+        <button
+          onClick={() => onSelectPack('Pack Anniversaire', 19900)}
+          className="w-full inline-flex items-center justify-center gap-3 bg-dame-orange text-white font-bold text-base py-4 rounded-2xl shadow-xl shadow-dame-orange/30 hover:-translate-y-0.5 smooth-transition cta-button min-h-[56px]"
+        >
+          <WhatsAppIcon className="w-5 h-5 flex-shrink-0" />
+          Réserver sur WhatsApp
+        </button>
       </div>
 
     </div>
