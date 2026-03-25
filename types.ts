@@ -1,5 +1,5 @@
 
-export type FunnelStep = 'landing' | 'order' | 'thanks';
+export type FunnelStep = 'landing' | 'order' | 'thanks' | 'privacy' | 'terms';
 
 export interface UserData {
   name: string;

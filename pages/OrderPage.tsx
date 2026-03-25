@@ -24,6 +24,7 @@ interface OrderPageProps {
   orderDetails: OrderDetails;
   onSubmit: (userData: UserData) => void;
   onBack: () => void;
+  onShowPrivacy: () => void;
 }
 
 const EVENT_TYPES = ['Anniversaire', 'Mariage', 'Baptême', 'Conférence / Séminaire', 'Soirée privée', 'Autre'];
@@ -31,7 +32,7 @@ const QUARTIERS = ['Cotonou Centre', 'Akpakpa', 'Fidjrossè', 'Cadjèhoun', 'Agl
 
 const MTN_MOMO_NUMBER = '+229 67 82 32 34';
 
-const OrderPage: React.FC<OrderPageProps> = ({ orderDetails, onSubmit, onBack }) => {
+const OrderPage: React.FC<OrderPageProps> = ({ orderDetails, onSubmit, onBack, onShowPrivacy }) => {
   const [form, setForm] = useState({
     name: '',
     whatsapp: '',
@@ -270,7 +271,9 @@ const OrderPage: React.FC<OrderPageProps> = ({ orderDetails, onSubmit, onBack })
                 className="mt-0.5 w-4 h-4 flex-shrink-0 accent-dame-orange cursor-pointer"
               />
               <span className="text-xs leading-relaxed">
-                J'accepte que mes données personnelles (nom, WhatsApp, email) soient utilisées par <strong>Dame Samoussa</strong> uniquement pour traiter ma commande et me recontacter via WhatsApp. Ces données ne seront jamais cédées à des tiers. <span className="text-dame-orange">*</span>
+                J'accepte que mes données personnelles (nom, WhatsApp, email) soient utilisées par <strong>Dame Samoussa</strong> uniquement pour traiter ma commande et me recontacter via WhatsApp. Ces données ne seront jamais cédées à des tiers. Voir notre{' '}
+                <button type="button" onClick={onShowPrivacy} className="text-dame-orange underline hover:text-dame-brown smooth-transition">politique de confidentialité</button>.{' '}
+                <span className="text-dame-orange">*</span>
               </span>
             </label>
             {errors.gdpr && <p className="text-red-500 text-xs mt-1.5 ml-7">{errors.gdpr}</p>}

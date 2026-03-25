@@ -5,6 +5,8 @@ import LandingPage from './pages/LandingPage';
 import LandingPageV2 from './pages/LandingPageV2';
 import OrderPage from './pages/OrderPage';
 import ThanksPage from './pages/ThanksPage';
+import PrivacyPage from './pages/PrivacyPage';
+import TermsPage from './pages/TermsPage';
 import { InstagramIcon, FacebookIcon, WhatsAppIcon, MapPinIcon, PhoneIcon, MailIcon } from './constants';
 import { FunnelStep, OrderDetails, UserData } from './types';
 
@@ -56,14 +58,21 @@ const App: React.FC = () => {
             orderDetails={orderDetails}
             onSubmit={handleOrderSubmit}
             onBack={() => setStep('landing')}
+            onShowPrivacy={() => { setStep('privacy'); window.scrollTo({ top: 0 }); }}
           />
         )}
         {step === 'thanks' && userData && (
           <ThanksPage userData={userData} onRestart={handleRestart} />
         )}
+        {step === 'privacy' && (
+          <PrivacyPage onBack={() => setStep('landing')} />
+        )}
+        {step === 'terms' && (
+          <TermsPage onBack={() => setStep('landing')} />
+        )}
       </main>
 
-      {step === 'landing' && (
+      {(step === 'landing' || step === 'privacy' || step === 'terms') && (
         <footer className="bg-dame-brown text-white">
           <div className="container mx-auto px-6 py-16 grid md:grid-cols-3 gap-12 border-b border-white/10">
             {/* Logo + tagline */}
@@ -117,8 +126,16 @@ const App: React.FC = () => {
               </ul>
             </div>
           </div>
-          <div className="container mx-auto px-6 py-5 text-center text-xs text-white/30">
-            © {new Date().getFullYear()} Dame Samoussa — Tous droits réservés
+          <div className="container mx-auto px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-white/30">
+            <span>© {new Date().getFullYear()} Dame Samoussa — Tous droits réservés</span>
+            <div className="flex gap-5">
+              <button onClick={() => { setStep('privacy'); window.scrollTo({ top: 0 }); }} className="hover:text-dame-orange smooth-transition">
+                Politique de confidentialité
+              </button>
+              <button onClick={() => { setStep('terms'); window.scrollTo({ top: 0 }); }} className="hover:text-dame-orange smooth-transition">
+                CGV
+              </button>
+            </div>
           </div>
         </footer>
       )}
